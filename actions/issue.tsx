@@ -192,7 +192,7 @@ export async function updateIssue(issueId:string ,data: { status?: string, prior
             throw new Error("Unauthorize")
         }
         
-        const updateData: { statusId?: string; priority?: IssuePriority } = {};
+        const updateData: Partial<{ statusId: string; priority: IssuePriority }> = {};
         if (data.status) {
             updateData.statusId = data.status;
         }
