@@ -7,8 +7,29 @@ import Image from "next/image"
 import { Button } from "./ui/button"
 import { LogInIcon, PlusIcon } from "lucide-react"
 import UserMenu from "./user-menu"
+import UserLoading from "./user-loading"
+import { useEffect, useState } from "react"
 
-const header = () => {
+const Header = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('/api/check-user');
+        const data = await response.json();
+        setUser(data.user);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <header className="flex items-center justify-between p-4 container mx-auto">
       <nav className="flex items-center py-6 px-4 justify-between w-full">
@@ -16,34 +37,31 @@ const header = () => {
           <Image src="/logo2.png" alt="logo" width={200} height={100}
           className="object-contain h-10 w-auto" />
         </Link>
-      
-      <div className="flex items-center gap-4">
+            
+        <div className="flex items-center gap-4">
         <Link href="/project/create">
         <Button variant="outline" className="rounded-full">
-          <PlusIcon className="w-4 h-4" /> 
-          <span>Create Project</span>
+          <PlusIcon className="w-4 h-4" />
+           <span>Create Project</span>
         </Button>
         </Link>
-
-
-        <SignedOut>
+          <SignedOut>
           <SignInButton forceRedirectUrl={"/onboarding"} >
             <Button variant="outline" className="rounded-full">
-              <LogInIcon className="w-4 h-4" /> 
-              <span>Sign In</span>
+              <LogInIcon className="w-4 h-4" />
+               <span>Sign In</span>
             </Button>
           </SignInButton>
         </SignedOut>
 
-        <SignedIn>
+         <SignedIn>
           <UserMenu />
         </SignedIn>
       </div>
-
-
-    </nav>
+      </nav>
+    {loading ? <UserLoading /> : null}
     </header>
   )
 }
 
-export default header
+export default Header

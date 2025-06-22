@@ -4,6 +4,7 @@ import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provide";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Scrum Board",
@@ -67,7 +68,7 @@ export default function RootLayout({
       }}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className="antialiased">          
+        <body className={`dotted-background`}>          
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -76,6 +77,7 @@ export default function RootLayout({
           >
             <Header />
             <main className="min-h-screen">{children}</main>
+            <Toaster richColors />
           </ThemeProvider>
         </body>
       </html>
