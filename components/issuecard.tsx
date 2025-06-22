@@ -26,6 +26,7 @@ interface IssueCardProps {
   showStatus?: boolean;
   onDelete?: () => void;
   onUpdate?: () => void;
+  orgId: string;
 }
 
 const IssueCard: React.FC<IssueCardProps> = ({
@@ -33,6 +34,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
     showStatus = false,
     onDelete = () => {},
     onUpdate = () => {},
+    orgId,
     })=>{
 
         const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -73,6 +75,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
             issue={issue}
             onDelete={onDeleteHandler}
             onUpdate={onUpdateHandler}
+            orgId={orgId}
           />
         )}
       </>

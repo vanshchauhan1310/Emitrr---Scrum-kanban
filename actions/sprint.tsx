@@ -48,7 +48,7 @@ export async function createSprint(projectId: string, data: CreateSprintData) {
     }
 }
 
-export async function updateSprintStatus(sprintId: string, newStatus:string) {
+export async function updateSprintStatus(sprintId: string, newStatus: string) {
 
     const { userId , orgId , orgRole} = await auth()
 
@@ -101,14 +101,14 @@ export async function updateSprintStatus(sprintId: string, newStatus:string) {
             },
 
             data:{
-                status: newStatus
+                status: newStatus as SprintStatus
             },
         });
 
         return {success:true,sprint:updateSprint}
 
-    }catch (error){
-        throw new Error(error.message);
+    }catch (error: unknown){
+        throw new Error(error instanceof Error ? error.message : "Unknown error occurred");
     }
 
 

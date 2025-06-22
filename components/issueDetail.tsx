@@ -17,11 +17,11 @@ import {
 
 import useFetch from "@/hooks/use-fetch";
 import { useUser, useOrganization } from "@clerk/clerk-react";
-import { useState } from "react";
-import statuses from "@/data/status.json";
+import { useState, useEffect } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import UserAvatar from "./user-avatar";
 import { deleteIssue, updateIssue } from "@/actions/issue";
+import { getStatuses } from "@/actions/status";
 import { Button } from "@/components/ui/button";
 
 interface IssueDetailsDialogProps {
@@ -30,6 +30,7 @@ interface IssueDetailsDialogProps {
   issue: any;
   onDelete?: () => void;
   onUpdate?: () => void;
+  orgId: string;
 }
 
 const priorityOptions = ["LOW", "MEDIUM", "HIGH", "URGENT"];
@@ -40,12 +41,30 @@ const IssueDetailsDialog: React.FC<IssueDetailsDialogProps> = ({
   issue,
   onDelete = () => {},
   onUpdate = () => {},
+  orgId,
 }) => {
-  const [status, setStatus] = useState(issue.status);
+  const [status, setStatus] = useState(issue.statusId);
   const [priority, setPriority] = useState(issue.priority);
+  const [statuses, setStatuses] = useState<any[]>([]);
 
   const { user } = useUser();
   const { membership } = useOrganization();
+
+  // Fetch statuses when component mounts
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      try {
+        const statusData = await getStatuses(orgId);
+        setStatuses(statusData);
+      } catch (error) {
+        console.error("Error fetching statuses:", error);
+      }
+    };
+    
+    if (orgId) {
+      fetchStatuses();
+    }
+  }, [orgId]);
 
   const {
     isLoading: deleteLoading,
@@ -90,7 +109,18 @@ const IssueDetailsDialog: React.FC<IssueDetailsDialogProps> = ({
         </DialogHeader>
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
-          
+            <Select value={status} onValueChange={handleStatusChange} disabled={!canChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {statuses.map((statusOption: any) => (
+                  <SelectItem key={statusOption.id} value={statusOption.id}>
+                    {statusOption.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             <Select value={priority} onValueChange={handlePriorityChange} disabled={!canChange}>
               <SelectTrigger>

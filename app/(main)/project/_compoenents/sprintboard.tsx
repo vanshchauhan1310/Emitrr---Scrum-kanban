@@ -212,6 +212,7 @@ const SprintBoard: React.FC<SprintBoardProps> = ({ sprints, projectId, orgId }) 
                                   issue={issue}
                                   onDelete={() => fetchIssues(currentSprint.id)}
                                   onUpdate={() => fetchIssues(currentSprint.id)}
+                                  orgId={orgId}
                                 />
                               
                               </div>
