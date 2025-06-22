@@ -18,7 +18,6 @@ import {
 import useFetch from "@/hooks/use-fetch";
 import { useUser, useOrganization } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
-import MDEditor from "@uiw/react-md-editor";
 import UserAvatar from "./user-avatar";
 import { deleteIssue, updateIssue } from "@/actions/issue";
 import { getStatuses } from "@/actions/status";
@@ -136,7 +135,9 @@ const IssueDetailsDialog: React.FC<IssueDetailsDialogProps> = ({
             </Select>
           </div>
           <h4 className="font-semibold">Description</h4>
-          <MDEditor.Markdown className="rounded px-2 py-3" source={issue.description ? issue.description : " "} />
+          <div className="rounded px-2 py-3">
+            {issue.description ? issue.description : " "}
+          </div>
         </div>
 
         <div className="flex justify-between">

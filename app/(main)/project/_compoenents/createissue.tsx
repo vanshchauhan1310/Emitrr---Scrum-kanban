@@ -19,7 +19,7 @@ import { createIssue } from "@/actions/issue"
 import { useEffect } from "react"
 import { BarLoader } from "react-spinners"
 import { Input } from "@/components/ui/input"
-import MDEditor from '@uiw/react-md-editor';
+import { Textarea } from "@/components/ui/textarea"
 import * as z from "zod";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -177,7 +177,7 @@ return <Drawer open={isOpen} onClose={onclose}>
             <Controller name="description" control={control} 
         render={({field}) =>(
 
-            <MDEditor
+            <Textarea
             value={field.value}
             onChange={field.onChange}
           />
