@@ -25,7 +25,7 @@ import * as z from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
 import useFetch from "@/hooks/use-fetch"
-import { User } from "@prisma/client"
+import { User } from "@/lib/generated/prisma"
 
 const issueSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters long"),
